@@ -54,8 +54,8 @@ export const Login = () => {
             <button
                 className="btn btn-primary"
                 onClick={() => login({
-                    username: 'jessewollin',
-                    password: 'Ingres#1865',
+                    username: '', // replace with your own
+                    password: '', // replace with your own
                     dispatch
                 })}
             >

@@ -88,15 +88,15 @@ app.use(bodyParser.json());
 app.post('/login',  (request, response) => {
     // const username = process.env.instagram_username;
     // const password = process.env.instagram_password;
-    const client = new Instagram({ username: 'jessewollin', password: 'Ingres#1865', cookieStore });
-    return client.login({ username: 'jessewollin', password: 'Ingres#1865' }).then(({ authenticated }) => {
+    const client = new Instagram({ username: '' /* replace with your own */, password: '', /* replace with your own */ cookieStore });
+    return client.login({ username: '', /* replace with your own */ password: '' /* replace with your own */ }).then(({ authenticated }) => {
         // todo fix response username and passwords
         response.json({ authenticated, username: 'jessewollin', name: 'Jesse Wollin' });
     });
 });
 
 app.post('/user',  (request, response) => {
-    const client = new Instagram({username: 'jessewollin', password: 'Ingres#1865', cookieStore});
+    const client = new Instagram({username: '', /* replace with your own */ password: '', /* replace with your own */ cookieStore});
     return client.getUserByUsername({ username: 'jessewollin' }).then((data) => {
         console.log(
             '**********data**********\n',
