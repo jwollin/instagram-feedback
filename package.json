@@ -4,10 +4,10 @@
   "description": "learning webpack",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.prod.js",
-    "server": "webpack --config webpack.config.server.js",
-    "dev": "webpack --config webpack.config.dev.js",
-    "init": "npm run server && node ./dist/server.js"
+    "prod": "webpack --config webpack.config.prod.js",
+    "build": "webpack --config webpack.config.server.js --watch",
+    "start": "webpack --config webpack.config.dev.js --watch",
+    "server": "node ./dist/server.js"
   },
   "resository": "https://github.com/jwollin/react-server-side.git",
   "author": "Jesse Wollin",
@@ -28,6 +28,7 @@
     "css-loader": "^4.2.1",
     "html-webpack-plugin": "^4.2.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.3",
     "webpack": "^4.44.1",
@@ -37,7 +38,10 @@
   },
   "dependencies": {
     "@wecreatesoftware/redux-higher-order-reducers": "^5.2.0",
+    "axios": "^0.19.2",
     "body-parser": "^1.18.2",
+    "bootstrap": "^4.5.2",
+    "chalk": "^4.1.0",
     "dotenv": "^5.0.1",
     "ejs": "^2.5.8",
     "express": "^4.17.1",
@@ -49,10 +53,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
+    "reactstrap": "^8.5.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-multi": "^0.1.12",
     "regenerator-runtime": "^0.13.7",
+    "source-map-loader": "^1.0.1",
+    "style-loader": "^1.2.1",
     "tough-cookie-filestore2": "^1.0.0"
   }
 }

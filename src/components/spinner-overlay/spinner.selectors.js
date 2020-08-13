@@ -1,5 +1,4 @@
 import { get } from 'lodash';
-import { SPINNER } from "../../reducers/reducers";
+import { SPINNER } from "../../constants/constants";
 
 export const getShowSpinner = (state) => get(state, `${SPINNER}`, false);
-
