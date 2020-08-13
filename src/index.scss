@@ -1,0 +1,6 @@
+.react-instagram-app {
+  color: dodgerblue;
+
+  @import '/src/components/user-media/user-media.scss';
+  @import '/src/components/spinner-overlay/spinner.scss';
+}

@@ -1,3 +1,57 @@
+// const fs = require('fs');
+// // import path from 'path';
+// import bodyParser from 'body-parser';
+// import "regenerator-runtime/runtime.js";
+// import env from 'dotenv';
+// import express from 'express';
+
+// import numeral from 'numeral';
+//
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import { renderToString } from 'react-dom/server';
+// import { createStore } from 'redux';
+//
+// import FileCookieStore from 'tough-cookie-filestore2';
+// import Instagram from 'instagram-web-api';
+//
+// import { App } from "../src/app";
+// import { reducers, USER_REDUCER } from "../src/reducers/reducers";
+//
+// env.config();
+// const app = express();
+// const PORT = 3000;
+//
+// // app.use(bodyParser.urlencoded({extended: true}));
+// // app.use(express.static('public'));
+//
+// // serve static files found in the public sub-directory automatically
+//
+// app.use(express.static(__dirname + '/public'));
+//
+// app.use(bodyParser.urlencoded({
+//     extended: false
+// }));
+//
+// app.get('/', (request, response) => {
+//     if (request.query.remove_cookies && fs.existsSync('./cookies.json')) {
+//         console.log('Cookies file removed!');
+//         fs.unlinkSync('./cookies.json');
+//     }
+//     response.sendFile('./index.html');
+// });
+//
+// app.post('/', (request, response) => {
+//     var username = request.body.username;
+//     var htmlData = 'Hello:' + username;
+//     response.sendFile(__dirname, './index.html');
+// });
+//
+// // app.get('/', (request, response) => {
+// //
+// // })
+//
+//
 // app.get('/', (request, response) => {
 //     if (request.query.remove_cookies && fs.existsSync('./cookies.json')) {
 //         console.log('Cookies file removed!');
@@ -67,43 +121,286 @@
 //     });
 // });
 
+
+
+
+// black
+// red
+// green
+// yellow
+// blue
+// magenta
+// cyan
+// white
+// blackBright (alias: gray, grey)
+// redBright
+// greenBright
+// yellowBright
+// blueBright
+// magentaBright
+// cyanBright
+// whiteBright
+
+// bgBlack
+// bgRed
+// bgGreen
+// bgYellow
+// bgBlue
+// bgMagenta
+// bgCyan
+// bgWhite
+// bgBlackBright (alias: bgGray, bgGrey)
+// bgRedBright
+// bgGreenBright
+// bgYellowBright
+// bgBlueBright
+// bgMagentaBright
+// bgCyanBright
+// bgWhiteBright
+
+
+
+
+
+
+
+
+
+
+// const express = require('express');
+// const app = express();
+//
+// // Parse JSON bodies for this app. Make sure you put
+// // `app.use(express.json())` **before** your route handlers!
+// app.use(express.json());
+//
+// app.post('*', (req, res) => {
+//     req.body; // JavaScript object containing the parse JSON
+//     res.json(req.body);
+// });
+// const server = app.listen(3000);
+//
+// // Demo showing the server in action
+// const axios = require('axios');
+
+
+
+
+
+
 import React from 'react';
 import express from 'express';
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
+import FileCookieStore from 'tough-cookie-filestore2';
+// import chalk from 'chalk';
+
 import "regenerator-runtime/runtime.js";
 import 'dotenv';
-
-import FileCookieStore from 'tough-cookie-filestore2';
 import Instagram from 'instagram-web-api';
 
+import { transformData } from "./utils/transform-data";
+import {PROFILE, USER_AUTHENTICATION, USER_DATA, USERS_DATA} from "../src/constants/constants";
+
 const app = express();
-// const router = express.Router();
 const PORT = 3000;
-const cookieStore = new FileCookieStore('./cookies.json');
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-app.post('/login',  (request, response) => {
-    // const username = process.env.instagram_username;
-    // const password = process.env.instagram_password;
-    const client = new Instagram({ username: '' /* replace with your own */, password: '', /* replace with your own */ cookieStore });
-    return client.login({ username: '', /* replace with your own */ password: '' /* replace with your own */ }).then(({ authenticated }) => {
-        // todo fix response username and passwords
-        response.json({ authenticated, username: 'jessewollin', name: 'Jesse Wollin' });
-    });
+// app.post('/login', async (request, response) => {
+//     const { username = '', password = '' } = request.body;
+//     // const username = process.env.instagram_username;
+//     // const password = process.env.instagram_password;
+//     const cookieStore = new FileCookieStore('./cookies.json');
+//     const client = new Instagram({username, password, cookieStore});
+//     return await client.login({ username, password }).then(({ authenticated }) => {
+//         if (authenticated) {
+//             return getUserData({ username })
+//         }
+//         response.json({
+//             authenticated,
+//             profile: null,
+//         });
+//     }).then((profile) => {
+//         if (profile) {
+//             response.json({
+//                 authenticated: true,
+//                 profile
+//             });
+//         }
+//     }).catch((error, next) => {
+//         response.format({
+//             'text/html': () => {
+//                 response.send(error);
+//             }
+//         });
+//         response.json({
+//             error: 'No Followers',
+//             items: [],
+//         });
+//         response.send(error);
+//         next();
+//     });
+// });
+
+app.post('/login', async (request, response) => {
+    const obj = {};
+    const { username = '', password = '' } = request.body;
+    const cookieStore = new FileCookieStore('./cookies.json');
+    const client = new Instagram({ username, password, cookieStore });
+    return await client.login({ username, password })
+        .then(({ authenticated }) => {
+            Object.assign(
+                obj, {
+                    [USER_AUTHENTICATION]: {
+                        authenticated,
+                    }
+                }
+            );
+            return client.getUserByUsername({ username });
+        })
+        .then((profile) => {
+            Object.assign(
+                obj, {
+                    [USER_DATA]: {
+                        error: null,
+                        data: transformData(profile)
+                    }
+                }
+            );
+            return client.getFollowers({ userId: '8121454761' });
+        })
+        .then(ids => {
+            return Promise.all(
+                ids.data.map((id) => {
+                    return client.getUserByUsername({
+                        username: id.username
+                    });
+                }
+            ))
+        })
+        .then((followers) => {
+            Object.assign(obj, {
+                [USERS_DATA]: {
+                    error: null,
+                    data: followers.map(follower => transformData(follower))
+                }
+            });
+            console.log(
+                '**********obj**********\n',
+                obj,
+                '\n**********obj**********\n',
+            )
+            response.json(obj);
+        })
+        .catch((error, next) => {
+            response.json({
+                error: 'No Followers',
+                items: [],
+            });
+            response.send(error);
+            next();
+        });
 });
 
-app.post('/user',  (request, response) => {
-    const client = new Instagram({username: '', /* replace with your own */ password: '', /* replace with your own */ cookieStore});
-    return client.getUserByUsername({ username: 'jessewollin' }).then((data) => {
-        console.log(
-            '**********data**********\n',
-            data,
-            '\n**********data**********\n',
-        )
-    });
+export const getUserData = async (data) => {
+    const { username, password } = data;
+    const client = new Instagram({ username, password });
+    const obj = {};
+    return await client.getUserByUsername({ username })
+        .then((data) => {
+            if (data) {
+                Object.assign(obj, {
+                    [PROFILE]: {
+                        error: null,
+                        data: transformData(data)
+                    }
+                })
+            }
+        })
+        .then(() => {
+            return client.getFollowers({ userId: '8121454761' })
+                .then(ids => {
+                    return Promise.all(
+                        ids.data.map((id) => {
+                            return client.getUserByUsername({
+                                username: id.username
+                            });
+                        })
+                    );
+                })
+                .then(followers => {
+                    console.log(
+                        '**********followers**********\n',
+                        followers,
+                        '\n**********followers**********\n',
+                    )
+                    response.json({
+                        error: null,
+                        items: followers.map(follower => transformData(follower),
+                        )})
+                }).catch((error, next) => {
+                    response.json({
+                        error: 'No Followers',
+                        items: [],
+                    });
+                    next();
+                });
+        })
+};
+
+app.post('/user-data', async (request, response) => {
+    // const cookieStore = new FileCookieStore('./cookies.json');
+    const { username = '', loginUser = '', loginPassword = '' } = request.body;
+
+    return await getUserData({ username: loginUser, password: loginPassword }).then(data => {
+        return response.json(data);
+    })
 });
+
+// app.post('/users-data', async (request, response) => {
+//     // const cookieStore = new FileCookieStore('./cookies.json');
+//     const { username = '', loginUser = '', loginPassword = '' } = request.body;
+//     const client = new Instagram({ username: loginUser, password: loginPassword });
+//     return await client.getFollowers({ userId: '8121454761' })
+//         .then(ids => {
+//             // console.log(
+//             //     '**********ids**********\n',
+//             //     ids,
+//             //     '\n**********ids**********\n',
+//             // )
+//             // if (!ids.data.length) {
+//             //     response.json({
+//             //         error: 'No Followers',
+//             //         items: [],
+//             //     });
+//             // }
+//             return Promise.all(
+//                 ids.data.map((id) => {
+//                     return client.getUserByUsername({
+//                         username: id.username
+//                     });
+//                 })
+//             );
+//         })
+//         .then(followers => {
+//             // console.log(
+//             //     '**********followers**********\n',
+//             //     followers,
+//             //     '\n**********followers**********\n',
+//             // )
+//             response.json({
+//                 error: null,
+//                 items: followers.map(follower => transformData(follower),
+//             )})
+//         }).catch((error, next) => {
+//             response.json({
+//                 error: 'No Followers',
+//                 items: [],
+//             });
+//             next();
+//         });
+// });
 
 app.listen(PORT, () => console.log(`listening at http://localhost:${PORT}`));

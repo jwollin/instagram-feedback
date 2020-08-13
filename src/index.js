@@ -5,6 +5,7 @@ import { createStore } from 'redux';
 
 import { App } from "./components/app/app";
 import { reducers } from "./reducers/reducers";
+import './index.scss';
 
 const store = createStore(
 	reducers,
@@ -13,7 +14,7 @@ const store = createStore(
 
 render(
 	<Provider store={store}>
-		<App/>
+		<App />
 	</Provider>,
 	document.getElementById('root')
 );

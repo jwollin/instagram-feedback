@@ -10,6 +10,18 @@ module.exports = merge(baseConfig, {
         path: path.join(__dirname, 'public'),
         filename: 'client.js',
     },
+    module: {
+        rules: [
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
+            },
+        ]
+    },
     plugins: [new HtmlWebpackPlugin({
         template: './src/index.html'
     })]

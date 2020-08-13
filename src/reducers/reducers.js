@@ -1,29 +1,32 @@
 import { combineReducers } from 'redux';
 import { listReducer, stringReducer, objectReducer, booleanReducer } from "@wecreatesoftware/redux-higher-order-reducers";
-
-export const USER_PROFILE_DATA = 'USER_PROFILE_DATA';
-export const USERNAME = 'USERNAME';
-export const SPINNER = 'SPINNER';
-
+import {PROFILE, SPINNER, USER_AUTHENTICATION, USER_DATA, USERS_DATA} from "../constants/constants";
 
 export const reducers = combineReducers({
-   [USER_PROFILE_DATA]: objectReducer({
-      reducerName: USER_PROFILE_DATA,
+   [USER_AUTHENTICATION]: objectReducer({
+      reducerName: USER_AUTHENTICATION,
       initialState: {
          username: '',
          password: '',
-         name: '',
          authenticated: false,
       }
+   }),
+   [USER_DATA]: objectReducer({
+      reducerName: USER_DATA,
+      initialState: {
+         error: null,
+         data: null,
+      }
+   }),
+   [USERS_DATA]: objectReducer({
+      reducerName: USERS_DATA,
+      initialState: {
+         error: null,
+         data: []
+      },
    }),
    [SPINNER]: booleanReducer({
       reducerName: SPINNER,
       initialState: false,
-   }),
-   [USERNAME]: objectReducer({
-      reducerName: USERNAME,
-      initialState: {
-         username: ''
-      }
    })
 });
