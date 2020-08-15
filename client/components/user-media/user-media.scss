@@ -1,0 +1,13 @@
+.media-container {
+  display: flex;
+
+  .media-item {
+    margin-right: 15px;
+    flex-wrap: wrap;
+    flex-basis: 33.333%;
+
+    .card-image-top {
+      height: auto;
+    }
+  }
+}

@@ -6,9 +6,5 @@ import { getUsers } from "./users.selectors";
 export const Users = () => {
     const { data, error } = useSelector(state => getUsers(state));
     if (error) return null;
-    return data.map((item => {
-        return (
-            <User {...item} />
-        )
-    }));
+    return data.map((item => <User {...item} />));
 };
