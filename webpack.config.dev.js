@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(baseConfig, {
     mode: 'development',
-    entry: './src/index.js',
+    entry: './client/index.js',
     output: {
         path: path.join(__dirname, 'public'),
         filename: 'client.js',
@@ -23,6 +23,6 @@ module.exports = merge(baseConfig, {
         ]
     },
     plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html'
+        template: './client/index.html'
     })]
 });

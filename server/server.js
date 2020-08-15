@@ -15,8 +15,8 @@
 // import FileCookieStore from 'tough-cookie-filestore2';
 // import Instagram from 'instagram-web-api';
 //
-// import { App } from "../src/app";
-// import { reducers, USER_REDUCER } from "../src/reducers/reducers";
+// import { App } from "../client/app";
+// import { reducers, USER_REDUCER } from "../client/reducers/reducers";
 //
 // env.config();
 // const app = express();
@@ -98,7 +98,7 @@
 //                         "like": like_c,
 //                         "comments": comments_c,
 //                         "link": 'https://www.instagram.com/p/' + edges[p]['node']['shortcode'],
-//                         "thumbnail": edges[p]['node']['thumbnail_resources'][1]['src']
+//                         "thumbnail": edges[p]['node']['thumbnail_resources'][1]['client']
 //                     });
 //                 }
 //             }
@@ -184,22 +184,15 @@
 // const axios = require('axios');
 
 
-
-
-
-
-import React from 'react';
 import express from 'express';
-// import bodyParser from 'body-parser';
 import FileCookieStore from 'tough-cookie-filestore2';
-// import chalk from 'chalk';
 
 import "regenerator-runtime/runtime.js";
 import 'dotenv';
 import Instagram from 'instagram-web-api';
 
 import { transformData } from "./utils/transform-data";
-import {PROFILE, USER_AUTHENTICATION, USER_DATA, USERS_DATA} from "../src/constants/constants";
+import {PROFILE, USER_AUTHENTICATION, USER_DATA, USERS_DATA} from "../client/constants/constants";
 
 const app = express();
 const PORT = 3000;

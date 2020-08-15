@@ -4,12 +4,17 @@
   "description": "learning webpack",
   "main": "index.js",
   "scripts": {
+    "mongo:start": "brew services start mongodb-community@4.4",
+    "mongo:stop": "brew services stop mongodb-community@4.4",
     "prod": "webpack --config webpack.config.prod.js",
     "build": "webpack --config webpack.config.server.js --watch",
     "start": "webpack --config webpack.config.dev.js --watch",
+    "db": "webpack --config webpack.config.database.js --watch",
+    "db:collections": "node ./database/collections/collections.js",
+    "db:start": "node ./dist/database.js",
     "server": "node ./dist/server.js"
   },
-  "resository": "https://github.com/jwollin/react-server-side.git",
+  "repository": "https://github.com/jwollin/instagram-feed.git",
   "author": "Jesse Wollin",
   "license": "ISC",
   "devDependencies": {
@@ -34,7 +39,8 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "yargs": "^15.4.1"
   },
   "dependencies": {
     "@wecreatesoftware/redux-higher-order-reducers": "^5.2.0",
@@ -47,6 +53,7 @@
     "express": "^4.17.1",
     "instagram-web-api": "^2.2.0",
     "lodash": "^4.17.19",
+    "mongodb": "^3.6.0",
     "node-fetch": "^2.6.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
